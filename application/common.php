@@ -24,3 +24,7 @@ function object_array($array) {
     }
     return $array;
 }
+
+function md6($str){
+    return md5(md5($str.'njlg'));
+}
