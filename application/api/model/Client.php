@@ -65,6 +65,8 @@ class Client extends Model
             if ($user['status'] == 0){
                 return ret('该账号已被锁定',4002);
             }
+            $this->save(['token'=>md6($user['userpwd']),'token_time'=>time()],['uid'=>$user['uid']]);
+            $user = $this->where('uid',$user['uid'])->find();
             if ($info_type == 1) {
                 return $user->toArray();
             }else{

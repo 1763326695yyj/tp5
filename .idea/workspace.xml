@@ -5,7 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/controller/Base.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Base.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/controller/Index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/Goods.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Goods.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/model/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Client.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/common.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/common.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -60,7 +60,7 @@
       <workItem from="1572248692298" duration="4065000" />
       <workItem from="1572310012033" duration="14493000" />
       <workItem from="1572422794613" duration="1382000" />
-      <workItem from="1572481961354" duration="18533000" />
+      <workItem from="1572481961354" duration="26686000" />
     </task>
     <servers />
   </component>
