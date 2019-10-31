@@ -1,5 +1,6 @@
 <?php
 namespace app\api\controller;
+use app\api\model\Client;
 use think\Controller;
 use think\facade\Session;
 
@@ -11,7 +12,7 @@ class Base extends Controller
     }
 
     /**
-     * 验证用户
+     * Session验证用户
      */
     protected function check_login($user_id)
     {
@@ -26,6 +27,18 @@ class Base extends Controller
 //            return false;
             return true;
         }
+    }
+
+    /**
+     * token验证用户
+     */
+    public function check_login1($token){
+        $client = new Client();
+//        if (is_array($token_check = $client->tokenFind($token)) && !empty($token_check)){
+//            return ret($token_check);
+//        }else{
+            return $client->tokenFind($token);
+//        }
     }
 
     public function requset_post($post_arr = [])

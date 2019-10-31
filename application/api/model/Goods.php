@@ -29,6 +29,8 @@ class Goods extends Model
         $validate   = Validate::make($this->rule,$this->msg);
             if (!$validate->check($post)){
                 die($validate->getError());
+            }else{
+                return ret();
             }
 
 
