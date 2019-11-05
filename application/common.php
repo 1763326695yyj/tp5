@@ -1,7 +1,16 @@
 <?php
+define('ATTR_TEXT','wk_attr_text');
+define('ATTR','wk_attr');
+define('ATTR_TEXT_GOODS_LINK','wk_attr_text_goods_link');
+define('ATTR_LINK','wk_attr_link');
+define('GOODS_UNIT_LINK','wk_goods_unit_link');
+
+
 define('TOKEN_TIME',7200);
+define('API_TOKEN_TIME',7200);
 //token
 define('API_SECRET','weikongkejicom');
+//define('API_ID','admin');
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------

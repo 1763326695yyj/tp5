@@ -2,11 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63a1ee0f-0d81-406c-b96a-a3bcb95ddca7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/application/api/controller/Goods.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/model/Apptoken.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/model/Attr.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/model/AttrText.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/model/Log.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/model/Unit.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/controller/Base.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Base.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/controller/Index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/model/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/model/Goods.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Goods.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/common.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/common.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/route/route.php" beforeDir="false" afterPath="$PROJECT_DIR$/route/route.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +69,10 @@
       <workItem from="1572310012033" duration="14493000" />
       <workItem from="1572422794613" duration="1382000" />
       <workItem from="1572481961354" duration="26686000" />
+      <workItem from="1572568467874" duration="21980000" />
+      <workItem from="1572654313393" duration="17768000" />
+      <workItem from="1572827451619" duration="25766000" />
+      <workItem from="1572913982418" duration="24006000" />
     </task>
     <servers />
   </component>

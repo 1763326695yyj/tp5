@@ -32,21 +32,19 @@ class Client extends Model
     public function NamePwdFind($data){
         $validate   = Validate::make($this->rule,$this->msg);
         if (!$validate->check($data)){
-            return ret($validate->getError(),4000);
+            return ret($validate->getError(),4003);
         }else{
            $user = $this->where('username',$data['username'])->where('userpwd',md6($data['pwd']))->find();
            if (empty($user)){
                return ret('账号或密码输入错误',4001);
-           }else{
+           }
                if ($user['status'] == 0){
                    return ret('该账号已被锁定',4002);
-               }else{
-                   $saveData = ['token'=>md6($user['userpwd']),'token_time'=>time()];
+               }
+                   $saveData = ['token'=>md6($user['userpwd'].time()),'token_time'=>time()+TOKEN_TIME];
                    $this->save($saveData,['uid'=>$user['uid']]);
                    $reqData = ['user'=>$user,'token'=>$saveData['token']];
-                   return ret($reqData);
-               }
-           }
+                   return ret($reqData,0);
         }
     }
 
@@ -54,18 +52,21 @@ class Client extends Model
      * token验证用户
      * info_type 1 需要获取用户信息 0 不需要返回用户信息
     */
-    public function tokenFind($token,$info_type=''){
-        $user = $this->where('token',$token)->find();
+    public function tokenFind($token,$uid,$info_type=''){
+        $token =  str_replace(array("\r\n", "\r", "\n"), "", $token);
+        $where[] = ['token','=',$token];
+        $where[] = ['uid','=',$uid];
+        $user = $this->where($where)->find();
         if (empty($user)){
-            return ret('token验证失败',2001);
+            return ret($token,2001);
         }else{
-            if ($user['token_time'] < time()-TOKEN_TIME){
-                return ret('token失效',2002);
+            if ($user['token_time'] < time()){
+                return ret('usertoken失效',2002);
             }
             if ($user['status'] == 0){
                 return ret('该账号已被锁定',4002);
             }
-            $this->save(['token'=>md6($user['userpwd']),'token_time'=>time()],['uid'=>$user['uid']]);
+            $this->save(['token_time'=>time()+TOKEN_TIME],['uid'=>$user['uid']]);
             $user = $this->where('uid',$user['uid'])->find();
             if ($info_type == 1) {
                 return $user->toArray();
