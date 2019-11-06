@@ -75,5 +75,17 @@ class Base extends Controller
         }
     }
 
+    public function upload_file($file){
+        $url = '';
+        if ($file['image']['error'] == 0) {
+            $files = request()->file('image');
+            // 移动到框架应用根目录/uploads/ 目录下
+            $info = $files->move('../public/static/uploads/');
+            if ($info) {
+                $url =  str_replace("\\", "/", '/haifei/public/static/uploads/' . $info->getSaveName());
+            }
+        }
+        return $url;
+    }
 
 }

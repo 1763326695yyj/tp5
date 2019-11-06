@@ -33,51 +33,7 @@ class Index extends Base
         return $this->fetch();
     }
 
-    /**
-     * goodsid , userid
-     * return 单个商品信息
-     */
-    public function goods_find()
-    {
-        if (is_array($rqu = $this->text('post',['goodsid','token','uid'],2)) ||empty($rqu)){
-            return $goodsArr = $this->goods->findOne($rqu['goodsid']);
-        }else{
-            return $rqu;
-        }
-    }
 
-    public function goods_add(){
-       if (is_array($rqu = $this->text('post',['token','uid'],1)) ||empty($rqu)){
-           return $this->goods->add($rqu);
-       }else{
-           return $rqu;
-       }
-    }
-    public function goods_update(){
-        if (is_array($rqu = $this->text('post',['token','uid','id'],1)) ||empty($rqu)){
-
-            return $this->goods->updates($rqu);
-        }else{
-            return $rqu;
-        }
-    }
-    public function login(){
-
-        if (is_array($rqu =  $this->text('post',['username','pwd'])) ||empty($rqu)){
-            return $this->client->NamePwdFind($rqu);
-        }else{
-            return $rqu;
-        }
-    }
-    public function get_token(){
-        $param = $this->request->param();
-        if (!empty($param['appid'] && !empty($param['appsecret']) )){
-            $token_data = $this->apptoken->create_token($param['appid'],$param['appsecret']);
-                return ret(['apptoken'=>$token_data['app_token']]);
-        }else{
-            return ret('未获得开发者权限',1201);
-        }
-    }
     /**
      * 验证是否登录，参数
      * type : post get
@@ -139,6 +95,22 @@ class Index extends Base
         }
     }
 
-
-
+    /**
+     * @return \think\response\Json
+     * 查找缓存数组
+     * arr_name 对应数组名称
+     */
+    public function cache_arr_find(){
+        $param = $this->request->param();
+        $arr_name = [
+            '属性' => 'attr_arr',
+            '单位' => 'unit_arr',
+        ];
+//        Cache::rm('unit_arr');
+        if (!empty($param['arr_name']) && !empty($arr_name[$param['arr_name']])){
+            return ret(Cache::get($arr_name[$param['arr_name']]));
+        }else{
+            return ret('参数错误',1004);
+        }
+    }
 }

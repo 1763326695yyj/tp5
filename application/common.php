@@ -1,9 +1,16 @@
 <?php
 define('ATTR_TEXT','wk_attr_text');
 define('ATTR','wk_attr');
-define('ATTR_TEXT_GOODS_LINK','wk_attr_text_goods_link');
+define('ATTR_TEXT_GOODS_LINK','wk_goods_attr_text_link');
 define('ATTR_LINK','wk_attr_link');
 define('GOODS_UNIT_LINK','wk_goods_unit_link');
+define('PROVINCES','wk_provinces');
+define('CITIES','wk_cities');
+define('AREAS','wk_areas');
+define('ATTR_TABLE_LINK','wk_attr_table_link');
+define('COMPANY','wk_company');
+define('COMPANY_ATTR_LINK','wk_company_attr_link');
+define('COMPANY_PIC','wk_company_pic');
 
 
 define('TOKEN_TIME',7200);

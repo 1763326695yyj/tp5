@@ -59,7 +59,7 @@ class Goods extends Model
                     for ($i = 0; $i < count($wherePost); $i++) {
                         $whereArr = explode('|', $wherePost[$i]);
                         if (count($whereArr) < 3) {
-                            return ret('参数错误', 1004);
+                            return  ['data'=>'参数错误','code'=>1004];
                         }
                         if ($whereArr[1] == 'like') {
                             $whereArr[2] = '%' . $whereArr[2] . '%';
@@ -83,10 +83,10 @@ class Goods extends Model
                         //获取商品单位相关信息
                      $GoodArr[$key]['unit_info'] =   $this->UnitModel->goodsUnitFind($v['id']);
                     }
-                     return ret($GoodArr);
+                     return ['data'=>$GoodArr,'code'=>0];
 
             }catch (Exception $e){
-                return ret($e->getMessage(),1005);
+                return ['data'=>$e->getMessage(),'code'=>1005];
             }
 
 
@@ -101,14 +101,14 @@ class Goods extends Model
     public function goodsAdd($value){
             try {
                 if (!is_array($value)){
-                    return  ret('参数错误',1004);
+                    return  ['data'=>'参数错误','code'=>1004];
                 }
                 $ret['error'] = $ret['success'] = 0;
                 //循环商品数据
 
                 foreach ($value as $key=>$v) {
                     if (!is_array($v['text_id'])){
-                        return  ret('参数错误',1004);
+                        return  ['data'=>'参数错误','code'=>1004];
                     }
                     $validate   = Validate::make($this->rule,$this->msg);
                         if (!$validate->check($v))
@@ -138,9 +138,9 @@ class Goods extends Model
                     }
                         $ret['error']++;
                 }
-                return ret($ret);
+                return ['data'=>$ret,'code'=>0];
             }catch (Exception $e){
-                return ret($e->getMessage(),1005);
+                return ['data'=>$e->getMessage(),'code'=>1005];
             }
 
     }
@@ -153,13 +153,13 @@ class Goods extends Model
     public function goodsEdit($value){
         try {
             if (!is_array($value)){
-                return  ret('参数错误',1004);
+                return  ['data'=>'参数错误','code'=>1004];
             }
             $ret['error'] = $ret['success'] = 0;
             //循环商品数据
             foreach ($value as $key=>$v) {
                 if (!is_array($v['text_id'])){
-                    return  ret('参数错误',1004);
+                    return  ['data'=>'参数错误','code'=>1004];
                 }
                 $validate   = Validate::make($this->rule,$this->msg);
                 if (!$validate->check($v))
@@ -200,9 +200,10 @@ class Goods extends Model
                 }
                     $ret['error']++;
             }
-            return ret($ret);
+            return ['data'=>$ret,'code'=>0];
         }catch (Exception $e){
-            return ret($e->getMessage(),1005);
+            return  ['data'=>'$e->getMessage()','code'=>1005];
+
         }
 
 //        }
@@ -220,7 +221,7 @@ class Goods extends Model
 
         $goods = Goods::get($id);
         if (empty($goods->$keys)){
-            return ret('参数错误',1004);
+            return  ['data'=>'参数错误','code'=>1004];
         }
         $key = $goods->$keys;
         if ($type == 'dec' ){
@@ -239,17 +240,17 @@ class Goods extends Model
                 }else{
                     if ($types == 'dec'){
                         if ( $key-$value < 0 ){
-                            return ret($key.'<'.$value,5001);
+                            return ['data'=>$key.'<'.$value,'code'=>5001];
                         }
 
                     }
                     $goods->$keys = [$type, $value];
                     $goods->save_time = time();
                     $goods->save();
-                    return ret(['msg'=>'操作成功','int'=>$int]);
+                    return ['data'=>['msg'=>'操作成功','int'=>$int],'code'=>0];
                 }
         }
-        return ret('参数错误',1004);
+        return  ['data'=>'参数错误','code'=>1004];
 
 
     }

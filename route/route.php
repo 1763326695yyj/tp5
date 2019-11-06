@@ -16,11 +16,12 @@ Route::get('think', function () {
 Route::get('hello/:name', 'index/hello');
 //Route::domain('api','api');
 return [
-    'gl' => 'api/goods/goods_list',
-    'gs' => 'api/goods/goods_save',
-    'aa' => 'api/goods/attr_add',
-    'ta' => 'api/goods/text_add',
-    'tf' => 'api/goods/text_find',
-    'ic' => 'api/goods/int_change',
-    'caf' => 'api/goods/cache_arr_find',
+    'ggl' => 'api/goods/goods_list',
+    'ggs' => 'api/goods/goods_save',
+    'aaa' => 'api/attr/attr_add',
+    'ata' => 'api/attr/text_add',
+    'atf' => 'api/attr/text_find',
+    'gic' => 'api/goods/int_change',
+    'icaf' => 'api/index/cache_arr_find',
+    'ccs' => 'api/company/company_save',
 ];

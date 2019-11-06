@@ -29,9 +29,9 @@ class Unit extends Model
                 $reqArr[$v['id']]['is_del'] = $v['is_del'];
             }
             Cache::set('unit_arr',$reqArr,3600*24*30);
-            return $reqArr;
+            return ['data'=>$reqArr,'code'=>0];
         }
-        return Cache::get('unit_arr');
+        return ['data'=>Cache::get('unit_arr'),'code'=>0];
     }
 
     /**

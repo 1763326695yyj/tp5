@@ -28,9 +28,9 @@ class AttrText extends Model
             Cache::rm('attr_arr');
             $attrModel = new attr();
             $attrModel->SelectAttrText();
-            return ret(['text_id' => $this->id]);
+            return ['data'=>['text_id' => $this->id],'code'=>0];
         }catch (Exception $e){
-            return ret($e->getMessage(),1005);
+            return ['data'=>$e->getMessage(),'code'=>1005];
         }
     }
 

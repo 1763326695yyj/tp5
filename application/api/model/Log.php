@@ -42,7 +42,7 @@ class Log extends Model
             'log' => $value['log']??'空操作',
             'ni' => 1,
         ];
-        return ret($this->save($logData));
+        return ['data'=>$this->save($logData),'code'=>0];
 
     }
 }

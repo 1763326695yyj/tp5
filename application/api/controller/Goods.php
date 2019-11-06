@@ -36,11 +36,12 @@ class Goods extends Base
             //根据属性值ID查找商品
             $text_goods_id = $this->attrText->goodsTextFind($param['text_id']);
             if (!empty($text_goods_id)){
-                return $this->goodsModel->goodsList($param['where']??'',$text_goods_id);
+                $GLdata = $this->goodsModel->goodsList($param['where']??'',$text_goods_id);
+                return ret($GLdata['data'],$GLdata['code']);
             }
         }
-             $list =  $this->goodsModel->goodsList($param['where']??'',$param['id']??'');
-            return $list;
+                $GLdatas =  $this->goodsModel->goodsList($param['where']??'',$param['id']??'');
+                return ret($GLdatas['data'],$GLdatas['code']);
     }
     /**
      * 商品添加/修改
@@ -50,55 +51,19 @@ class Goods extends Base
         $param = $this->request->param();
         if (array_key_exists('goodsData',$param) && array_key_exists('type',$param)) {
             if ($param['type'] == 'update'){
-                return $this->goodsModel->goodsEdit($param['goodsData']);
+                 $GEdata =  $this->goodsModel->goodsEdit($param['goodsData']);
+                 return ret($GEdata['data'],$GEdata['code']);
             }elseif ($param['type'] == 'create'){
-                return  $this->goodsModel->goodsAdd($param['goodsData']);
+                 $GAdata = $this->goodsModel->goodsAdd($param['goodsData']);
+                return ret($GAdata['data'],$GAdata['code']);
             }else{
                 return ret('参数错误',1004);
             }
-
-        }else{
-            return ret('参数错误',1004);
-        }
-
-    }
-
-
-    /**
-     * 属性值添加
-     */
-    public function text_add(){
-        $param = $this->request->param();
-        if (array_key_exists('attr_id',$param) && array_key_exists('text_name',$param)){
-           return $this->attrText->add($param);
-        }else{
-            return ret('参数错误',1004);
-        }
-    }
-    /**
-     * 查询当前属性下所有属性值
-     */
-    public function text_find(){
-        $param = $this->request->param();
-        if (array_key_exists('attr_id',$param) ){
-         return $this->attrModel->AttrTextFind($param['attr_id']);
         }else{
             return ret('参数错误',1004);
         }
     }
 
-    /**
-     * 属性添加
-     * @return \think\response\Json
-     */
-    public function attr_add(){
-        $param = $this->request->param();
-        if (array_key_exists('attr_name',$param)){
-            return $this->attrModel->add($param);
-        }else{
-            return ret('参数错误',1004);
-        }
-    }
 
     /**
      * @return mixed
@@ -111,26 +76,10 @@ class Goods extends Base
         $value = $param['value']??0;
         $type = $param['type']??'dec';
         $force = $param['force']??0;
-        return $this->goodsModel->int_change($id,$key,$value,$type,$force);
+        $ICdata =  $this->goodsModel->int_change($id,$key,$value,$type,$force);
+        return ret($ICdata['data'],$ICdata['code']);
     }
-    /**
-     * @return \think\response\Json
-     * 查找缓存数组
-     * arr_name 对应数组名称
-     */
-    public function cache_arr_find(){
-        $param = $this->request->param();
-        $arr_name = [
-            '属性' => 'attr_arr',
-            '单位' => 'unit_arr',
-        ];
-//        Cache::rm('unit_arr');
-        if (!empty($param['arr_name']) && !empty($arr_name[$param['arr_name']])){
-            return ret(Cache::get($arr_name[$param['arr_name']]));
-        }else{
-            return ret('参数错误',1004);
-        }
-    }
+
 
 
 
