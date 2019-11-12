@@ -6,6 +6,7 @@ namespace app\api\controller;
 
 use app\api\model\Attr;
 use app\api\model\AttrText;
+use app\api\model\House;
 use app\api\model\Log;
 use think\Controller;
 use app\api\Model\Goods as goodsModel;
@@ -34,10 +35,11 @@ class Goods extends Base
         $param = $this->request->param();
         if (!empty($param['text_id']) && is_array($param['text_id'])){
             //根据属性值ID查找商品
-            $text_goods_id = $this->attrText->goodsTextFind($param['text_id']);
-            if (!empty($text_goods_id)){
-                $GLdata = $this->goodsModel->goodsList($param['where']??'',$text_goods_id);
-                return ret($GLdata['data'],$GLdata['code']);
+            $g_id = $this->goodsModel->goodsAttrFind($param['text_id']);
+            if (!empty($param['where'])) {
+                $param['where'] .= '--id|in|' . $g_id;
+            }else{
+                $param['where'] = 'id|in|' . $g_id;
             }
         }
                 $GLdatas =  $this->goodsModel->goodsList($param['where']??'',$param['id']??'');
@@ -52,9 +54,28 @@ class Goods extends Base
         if (array_key_exists('goodsData',$param) && array_key_exists('type',$param)) {
             if ($param['type'] == 'update'){
                  $GEdata =  $this->goodsModel->goodsEdit($param['goodsData']);
+                 if ($GEdata['code'] == 0){
+                     //添加日志
+//                     $log['user_id'] = $GLOBALS['admin_id'];
+//                     $log['user_name'] = $GLOBALS['admin_name'];
+//                     $log['table_name'] = GOODS;
+//                     $log['crud'] = 'u';
+//                     $log['table_id'] = implode(',',$GEdata['data']['goods_id']);
+//                     $log['log'] = date('Y-m-d H:i:s',time()).' '.$GLOBALS['admin_name'].'对'.GOODS.'表进行更新操作,成功执行'.$GEdata['data']['success'].'个，失败'.$GEdata['data']['error'].'个。';
+//                    $this->logModel->createLog($log);
+                 }
                  return ret($GEdata['data'],$GEdata['code']);
             }elseif ($param['type'] == 'create'){
                  $GAdata = $this->goodsModel->goodsAdd($param['goodsData']);
+                if ($GAdata['code'] == 0){
+//                    $log['user_id'] = $GLOBALS['admin_id'];
+//                    $log['user_name'] = $GLOBALS['admin_name'];
+//                    $log['table_name'] = GOODS;
+//                    $log['crud'] = 'c';
+//                    $log['table_id'] = implode(',',$GAdata['data']['goods_id']);
+//                    $log['log'] = date('Y-m-d H:i:s',time()).' '.$GLOBALS['admin_name'].'对商品表进行新增操作,成功执行'.$GAdata['data']['success'].'个，失败'.$GAdata['data']['error'].'个。';
+//                    $this->logModel->createLog($log);
+                }
                 return ret($GAdata['data'],$GAdata['code']);
             }else{
                 return ret('参数错误',1004);
@@ -89,17 +110,41 @@ class Goods extends Base
 
 
     public function test(){
-        $value['crud'] = 'c';
-        $value['table_name'] = 'wk_goods';
-        $value['table_id'] = '30,31,32';
-        $value['user_id'] = 1;
-        $value['user_name'] = "管理员";
-//        $value['']
-       return $this->logModel->createLog($value);
+//        $value['crud'] = 'c';
+//        $value['table_name'] = 'wk_goods';
+//        $value['table_id'] = '30,31,32';
+//        $value['user_id'] = 1;
+//        $value['user_name'] = "管理员";
+////        $value['']
+//       return $this->logModel->createLog($value);
 //        $goods = [
-//            'text_id' => [1,3,5]
+//            'com' => [
+//              'attr' => [
+//                  ['attr_id'=>1,'t_id'=>2],
+//                  ['attr_id'=>1,'t_id'=>2],
+//              ]
+//            ]
 //        ];
-//        return json($goods);
+        $h = new House();
+//        $info = [
+//            [
+//                'row' => 1,
+//                'col' => 2
+//            ],
+//            [
+//                'row' => 3,
+//                'col' => 1,
+//            ],
+//            [
+//                'row' =>8,
+//                'col' =>2
+//            ]
+//        ];
+        return json($h->pleceGoodsSelect(2));
+//        for ($i=1;$i<=4;$i++) {
+//             $h->row_col($i, 2, 2, 2);
+//        }
+//        return 111;
 //        $param = file_get_contents('php://input');
 //        $param = str_replace(array("\r\n", "\r", "\n","\t") ,"", $param);
 //        $param = json_decode(json_encode($param),true);

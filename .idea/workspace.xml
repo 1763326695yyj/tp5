@@ -2,19 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63a1ee0f-0d81-406c-b96a-a3bcb95ddca7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/api/controller/Attr.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/api/controller/Company.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/api/controller/Place.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/api/model/Company.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/controller/House.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/controller/PutBill.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/model/House.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/model/PutBill.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/controller/Base.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Base.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Company.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/controller/Goods.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Goods.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/controller/Index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/model/Attr.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Attr.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/model/AttrText.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/AttrText.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/model/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Company.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/model/Goods.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Goods.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/model/Log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/Unit.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Unit.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/common.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/common.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/route/route.php" beforeDir="false" afterPath="$PROJECT_DIR$/route/route.php" afterDir="false" />
     </list>
@@ -33,17 +32,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration">
+  <component name="PhpDebugGeneral" hide_empty_superglobals="false" listening_started="true" />
+  <component name="PhpServers">
+    <servers>
+      <server host="www.tp51.top" id="2585ec14-a4d5-4685-af7c-5add13b2aa4d" name="mvcdemo" />
+    </servers>
+  </component>
+  <component name="PhpWebServerValidation" path_to_validation_script="D:\phpstudy_pro\WWW\tp5" selected_validation_type="LOCAL" web_path_to_validation_script="www.tp51.top" />
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP7.0">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/topthink/think-installer" />
       <path value="$PROJECT_DIR$/vendor/composer" />
     </include_path>
   </component>
+  <component name="PhpXdebugProxy" ide_key="PHPSTORM" host="localhost" port="9000" />
   <component name="ProjectId" id="1Sp7TPie14YCmBeMTg6rDaaZkgk" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../wkjxc1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="settings.php.debug.step.filters" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -56,6 +65,21 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager" selected="PHP Web Page.mvcdemo">
+    <configuration default="true" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" document_root="www.yto51.top">
+      <method v="2" />
+    </configuration>
+    <configuration name="assas" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" document_root="$PROJECT_DIR$/public">
+      <method v="2" />
+    </configuration>
+    <configuration name="mvcdemo" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" browser="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" server_name="mvcdemo" start_url="/ggl?id=1">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="PHP Built-in Web Server.assas" />
+      <item itemvalue="PHP Web Page.mvcdemo" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -75,7 +99,14 @@
       <workItem from="1572654313393" duration="17768000" />
       <workItem from="1572827451619" duration="25766000" />
       <workItem from="1572913982418" duration="25028000" />
-      <workItem from="1573000464484" duration="25505000" />
+      <workItem from="1573000464484" duration="25927000" />
+      <workItem from="1573086387111" duration="26247000" />
+      <workItem from="1573173043179" duration="2807000" />
+      <workItem from="1573175878522" duration="4910000" />
+      <workItem from="1573180939128" duration="11460000" />
+      <workItem from="1573259163028" duration="25059000" />
+      <workItem from="1573432483589" duration="24262000" />
+      <workItem from="1573518820277" duration="16010000" />
     </task>
     <servers />
   </component>

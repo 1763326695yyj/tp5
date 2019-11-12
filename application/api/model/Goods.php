@@ -79,7 +79,7 @@ class Goods extends Model
                         $GoodArr[$key]['mass'] = ($v['mass_time']??0).''.($mass_type[$v['mass_type']]??'');
                         $GoodArr[$key]['alarm'] = ($v['alarm_time']??0).''.($mass_type[$v['alarm_type']]??'');
                         //获取所有属性
-                        $GoodArr[$key]['attr_info'] = $this->attrModel->goodsAttrList($v['id']);
+                        $GoodArr[$key]['attr_info'] = $this->attrModel->AttrList('goods_id',$v['id'],ATTR_TEXT_GOODS_LINK);
                         //获取商品单位相关信息
                      $GoodArr[$key]['unit_info'] =   $this->UnitModel->goodsUnitFind($v['id']);
                     }
@@ -99,6 +99,7 @@ class Goods extends Model
      * value 商品添加的数据 二维数组
      */
     public function goodsAdd($value){
+        $this->startTrans();
             try {
                 if (!is_array($value)){
                     return  ['data'=>'参数错误','code'=>1004];
@@ -128,7 +129,7 @@ class Goods extends Model
                         //商品属性关联
                         if ($this->attr_text_goods_link($v['text_id'],$goodsModel->id)){
                             //商品单位关联
-                            $unit_bool =  $this->UnitModel->goodsUnitLink($goodsModel->id,$v['unit_id'],$v['change']??'',$v['switch_unit_id']??0,$v['switch_num']??0);
+                            $unit_bool =  $this->UnitModel->goodsUnitLink($goodsModel->id,$v['unit_id'],$v['unit_type']??'',$v['switch_unit_id']??0,$v['switch_num']??0);
                            if ($unit_bool) {
                                $ret['success']++;
                                $ret['goods_id'][] = $goodsModel->id;
@@ -138,8 +139,10 @@ class Goods extends Model
                     }
                         $ret['error']++;
                 }
+                $this->commit();
                 return ['data'=>$ret,'code'=>0];
             }catch (Exception $e){
+                $this->rollback();
                 return ['data'=>$e->getMessage(),'code'=>1005];
             }
 
@@ -151,6 +154,7 @@ class Goods extends Model
      * 商品更新
      */
     public function goodsEdit($value){
+        $this->startTrans();
         try {
             if (!is_array($value)){
                 return  ['data'=>'参数错误','code'=>1004];
@@ -200,9 +204,11 @@ class Goods extends Model
                 }
                     $ret['error']++;
             }
+            $this->startTrans();
             return ['data'=>$ret,'code'=>0];
         }catch (Exception $e){
-            return  ['data'=>'$e->getMessage()','code'=>1005];
+            $this->rollback();
+            return  ['data'=>$e->getMessage(),'code'=>1005];
 
         }
 
@@ -266,7 +272,6 @@ class Goods extends Model
      * 商品属性关联添加(先删除后添加)
      */
     public function attr_text_goods_link($text_id=[],$goods_id){
-
         $goods_link = [];
             for ($i=0;$i<count($text_id);$i++){
                 $ta_link = $this->table(ATTR_LINK)->where('text_id', '=', $text_id[$i])->find();
@@ -279,6 +284,23 @@ class Goods extends Model
         $whereDel[] = ['goods_id','=',$goods_id];
         $this->table(ATTR_TEXT_GOODS_LINK)->where($whereDel)->delete();
         return $this->table(ATTR_TEXT_GOODS_LINK)->insertAll($goods_link);
+    }
+    /**
+     * @param $text_id
+     * @return string 商品ID ','拼接
+     * 通过属性查找商品
+     */
+    public function goodsAttrFind($text_id){
+        $goods_id = '';
+        for ($i=0;$i<count($text_id);$i++){
+            $whereLink[] = ['text_id','=',$text_id[$i]];
+            if (!empty($goods_id)){
+                $whereLink[] = ['goods_id','in',$goods_id];
+            }
+            $goods_id = implode(',',array_unique($this->table(ATTR_TEXT_GOODS_LINK)->where($whereLink)->column('goods_id')));
+            unset($whereLink);
+        }
+        return $goods_id;
     }
 
 }

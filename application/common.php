@@ -4,6 +4,7 @@ define('ATTR','wk_attr');
 define('ATTR_TEXT_GOODS_LINK','wk_goods_attr_text_link');
 define('ATTR_LINK','wk_attr_link');
 define('GOODS_UNIT_LINK','wk_goods_unit_link');
+define('GOODS','wk_goods');
 define('PROVINCES','wk_provinces');
 define('CITIES','wk_cities');
 define('AREAS','wk_areas');
@@ -11,7 +12,14 @@ define('ATTR_TABLE_LINK','wk_attr_table_link');
 define('COMPANY','wk_company');
 define('COMPANY_ATTR_LINK','wk_company_attr_link');
 define('COMPANY_PIC','wk_company_pic');
-
+define('PUT_BILL','wk_put_bill');
+define('PUT_GOODS_LINK','wk_put_goods_link');
+define('PUT_COMPANY_LINK','wk_put_company_link');
+define('HOUSE','wk_house');
+define('HOUSE_PLECE','wk_house_plece');
+define('GOODS_HOUSE_PLECE','wk_goods_house_plece');
+$GLOBALS['admin_id'] = 1;
+$GLOBALS['admin_name'] = '管理员';
 
 define('TOKEN_TIME',7200);
 define('API_TOKEN_TIME',7200);

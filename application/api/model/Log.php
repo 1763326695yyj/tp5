@@ -29,7 +29,9 @@ class Log extends Model
             }else{
                 $table_id = '';
             }
-            $value['log'] = date('Y-m-d H:i:s').' '.$value['user_name'].' '.'对表'.$value['table_name'].$table_id." 进行了".$this->crud[$value['crud']]."操作";
+            $value['logs'] = date('Y-m-d H:i:s').' '.$value['user_name'].' '.'对表'.$value['table_name'].$table_id." 进行了".$this->crud[$value['crud']]."操作";
+        }else{
+            $value['logs'] = '空';
         }
 
         $logData = [
@@ -39,8 +41,7 @@ class Log extends Model
             'table_name' => $value['table_name']??'',
             'crud' => $value['crud']??'',
             'remark' => $value['remark']??'',
-            'log' => $value['log']??'空操作',
-            'ni' => 1,
+            'log' => $value['log']??$value['logs'],
         ];
         return ['data'=>$this->save($logData),'code'=>0];
 

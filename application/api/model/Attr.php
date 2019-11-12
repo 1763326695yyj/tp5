@@ -16,6 +16,7 @@ class Attr extends Model
         '省' => 'wk_provinces',
         '市' => 'wk_cities',
         '区' => 'wk_areas',
+        '单位' => 'wk_unit',
     ];
     public function initialize()
     {
@@ -151,20 +152,30 @@ class Attr extends Model
     }
 
     /**
-     * @param $goods_id
+     * @param $id
+     * @param $table_name
+     * @param $pk
      * @return array
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * 商品属性查找
      */
-    public function goodsAttrList($goods_id){
+    public function AttrList($pk,$id,$table_name){
         $AttrArr = [];
-        //获取所有属性 属性名 => 属性值
-        $attr_text_link = $this->table(ATTR_TEXT_GOODS_LINK)->where('goods_id','=',$goods_id)->select();
+        //获取当前所有属性 属性名 => 属性值
+        $attr_text_link = $this->table($table_name)->where($pk,'=',$id)->select();
         foreach ($attr_text_link as $keys=>$vv){
-            $AttrArr[] = [$this->attr_arr[$vv['attr_id']]['attr_name'] => $this->attr_arr[$vv['attr_id']]['text'][$vv['text_id']]];
+            if ($this->attr_arr[$vv['attr_id']]['state'] == 1) {
+                $AttrArr[] = [$this->attr_arr[$vv['attr_id']]['attr_name'] => $this->attr_arr[$vv['attr_id']]['text'][$vv['text_id']]];
+            }elseif($this->attr_arr[$vv['attr_id']]['state'] == 2) {
+                $attr_table_name = $this->table(ATTR_TABLE_LINK)->where('attr_id','=',$vv['attr_id'])->find()['table_name'];
+                $AttrArr[] = [$this->attr_arr[$vv['attr_id']]['attr_name'] => $this->table($attr_table_name)->find($vv['table_id'])];
+            }
+
         }
         return $AttrArr;
     }
+
+
 }

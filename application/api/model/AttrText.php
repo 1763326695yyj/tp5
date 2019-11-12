@@ -34,21 +34,5 @@ class AttrText extends Model
         }
     }
 
-    /**
-     * @param $text_id
-     * @return string 商品ID ','拼接
-     * 通过属性查找商品
-     */
-    public function goodsTextFind($text_id){
-//        $goods_id = '';
-        for ($i=0;$i<count($text_id);$i++){
-            $whereLink[] = ['text_id','=',$text_id[$i]];
-            if (!empty($goods_id)){
-                $whereLink[] = ['goods_id','in',$goods_id];
-            }
-            $goods_id = implode(',',array_unique($this->table(ATTR_TEXT_GOODS_LINK)->where($whereLink)->column('goods_id')));
-            unset($whereLink);
-        }
-        return $goods_id;
-    }
+
 }

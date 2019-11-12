@@ -24,4 +24,9 @@ return [
     'gic' => 'api/goods/int_change',
     'icaf' => 'api/index/cache_arr_find',
     'ccs' => 'api/company/company_save',
+    'ccl' => 'api/company/company_list',
+    'pps' => 'api/putBill/put_save',
+    'ppl' => 'api/putBill/put_list',
+    'hhs' => 'api/house/house_save',
+    'hhl' => 'api/house/house_list',
 ];
