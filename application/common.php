@@ -17,7 +17,11 @@ define('PUT_GOODS_LINK','wk_put_goods_link');
 define('PUT_COMPANY_LINK','wk_put_company_link');
 define('HOUSE','wk_house');
 define('HOUSE_PLECE','wk_house_plece');
-define('GOODS_HOUSE_PLECE','wk_goods_house_plece');
+define('BILL_HOUSE_GOODS','wk_bill_house_goods_link');
+define('HOUSE_GOODS_LINK','wk_house_goods_link');
+define('RECEIPT','wk_receipt');
+define('RECEIPT_INFO','wk_receipt_info');
+define('RECEIPT_COMPANY','wk_receipt_company_link');
 $GLOBALS['admin_id'] = 1;
 $GLOBALS['admin_name'] = '管理员';
 

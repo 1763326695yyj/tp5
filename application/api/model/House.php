@@ -182,7 +182,7 @@ class House extends Model
                         $wheres[] = ['row','=',$i];
                         $wheres[] = ['col','=',$j];
                         $wheres[] = ['type','=',1];
-                        $h_p = $this->table(GOODS_HOUSE_PLECE)->where($wheres)->find();
+                        $h_p = $this->table(BILL_HOUSE_GOODS)->where($wheres)->find();
 
                         if (!empty($h_p) ){
                             //格中有商品
@@ -239,16 +239,18 @@ class House extends Model
     /**
      * @param $goods_id
      * @param $house_id
+     * @param int $type
      * @param int $num
      * @param int $row
      * @param int $col
      * @param  $bill_sn
+     * @param  $goods_num
      * @return array
-     * 商品入库（按位置）
+     * 出/入库商品-仓库关系添加（按位置）
      */
-    public function goodsPleceAdd($goods_id,$house_id,$bill_sn,$num,$row,$col){
+    public function BillGoodsHouseAdd($goods_id,$house_id,$bill_sn,$type,$goods_num,$num,$row,$col){
         if (empty($row) || empty($col) || empty($num)){
-            return $this->goodsPleceAddFast($goods_id,$house_id,$bill_sn,$num??'');
+            return $this->BillGoodsHouseAddFast($goods_id, $house_id, $bill_sn, $type,$goods_num,$num ?? '');
         }
         $this->startTrans();
        try{
@@ -277,16 +279,7 @@ class House extends Model
                    }
                }
                if (!empty($success) && $success == 1){
-                    $data = [
-                        'goods_id' => $goods_id,'house_id' => $house_id , 'create_time' => time(),'num'=>$num,'row' =>$row,
-                        'col' => $col,'bill_sn' => $bill_sn,'type' => 1
-                    ];
-                    $req1 = $this->table(GOODS_HOUSE_PLECE)->insert($data);
-                    $req2 = $this->table(HOUSE_PLECE)->where($wheres)->update(['employ_type' => 2]);
-//                    if ($req1 && $req2){
-                        $this->commit();
-                        return ['code'=>0,'data'=>'入库成功'];
-//                    }
+                   return $this->put_out_house_goods($type,$goods_num,$house_id,$goods_id,$num,$row,$col,$bill_sn);
                }
            }
            return  ['data'=>'参数错误','code'=>1004];
@@ -297,14 +290,63 @@ class House extends Model
     }
 
     /**
+     * @param $type
+     * @param $goods_num
+     * @param $house_id
+     * @param $goods_id
+     * @param $num
+     * @param $row
+     * @param $col
+     * @param $bill_sn
+     * @return array
+     * @throws Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     * 出/入库商品-仓库关系添加操作
+     */
+    public function put_out_house_goods($type,$goods_num,$house_id,$goods_id,$num,$row,$col,$bill_sn){
+        $where_hg_link[] =['goods_id','=',$goods_id];
+        $where_hg_link[] =['house_id','=',$house_id];
+        $house_goods = $this->table(HOUSE_GOODS_LINK)->where($where_hg_link)->find();
+        if ($type == 2){
+            if (!empty($house_goods)){
+                if ($house_goods['num'] >= $goods_num && $house_goods['num'] > 0){
+                    $insertData = ['goods_id'=>$goods_id,'house_id'=>$house_id,'create_time'=>time(),'num'=>$num,'row'=>$row,'col'=>$col,'bill_sn'=>$bill_sn,'type'=>2,'goods_num'=>$goods_num];
+                    $this->table(BILL_HOUSE_GOODS)->insert($insertData);
+                    $this->table(HOUSE_GOODS_LINK)->where($where_hg_link)->setDec('num',$goods_num);
+                    $this->commit();
+                    return ['code'=>0 , 'data'=>'出库成功'];
+                }else{
+                    return  ['data'=>'该仓库商品库存不足','code'=>6004];
+                }
+            }else{
+                return  ['data'=>'该区域商品不存在','code'=>6003];
+            }
+        }elseif ($type == 1){
+            if (empty($house_goods)){
+                $this->table(HOUSE_GOODS_LINK)->insert(['goods_id'=>$goods_id,'house_id'=>$house_id,'num'=>0]);
+            }
+            $insertData = ['goods_id'=>$goods_id,'house_id'=>$house_id,'create_time'=>time(),'num'=>$num,'row'=>$row,'col'=>$col,'bill_sn'=>$bill_sn,'type'=>1,'goods_num'=>$goods_num];
+            $this->table(BILL_HOUSE_GOODS)->insert($insertData);
+            $this->table(HOUSE_GOODS_LINK)->where($where_hg_link)->setInc('num',$goods_num);
+            $this->commit();
+            return ['code'=>0,'data'=>'入库成功'];
+        }
+        return ['code'=>1004,'参数错误'];
+    }
+    /**
      * @param $goods_id
      * @param $house_id
      * @param $bill_sn
+     * @param $goods_num
      * @param $num
-     * 快捷入库
+     * @param $type
+     * 出/入库商品-仓库关系添加 快捷
      */
-    public function goodsPleceAddFast($goods_id,$house_id,$bill_sn,$num=''){
-        $this->startTrans();
+    public function BillGoodsHouseAddFast($goods_id,$house_id,$bill_sn,$type,$goods_num,$num=''){
+//        $this->startTrans();
         try{
             $house = House::get($house_id);
             if (!empty($house)) {
@@ -320,23 +362,16 @@ class House extends Model
                         $plece = $this->table(HOUSE_PLECE)->where($wheres)->select();
                     }
                 }
-                    //随机分配区域
-                    $is = rand(0,count($plece)-1);
-                    $wheres[] = ['num','=',$plece[$is]['num']];
-                    $wheres[] = ['row','=',$plece[$is]['row']];
-                    $wheres[] = ['col','=',$plece[$is]['col']];
-                    $data = [
-                        'goods_id' => $goods_id,'house_id' => $house_id , 'create_time' => time(),'num'=>$plece[$is]['num'],'row' =>$plece[$is]['row'],
-                        'col' => $plece[$is]['col'],'bill_sn' => $bill_sn,'type' => 1
-                    ];
-                    $req1 = $this->table(GOODS_HOUSE_PLECE)->insert($data);
-                    $req2 = $this->table(HOUSE_PLECE)->where($wheres)->update(['employ_type' => 2]);
-                        $this->commit();
-                        return ['code'=>0,'data'=>'入库成功,位置：第'.$plece[$is]['num'].'分区 '.$plece[$is]['row'].'行 '.$plece[$is]['col'].'列'];
+                //随机分配区域
+                $is = rand(0,count($plece)-1);
+                $req = $this->put_out_house_goods($type,$goods_num,$house_id,$goods_id,$num??1,$plece[$is]['row'],$plece[$is]['col'],$bill_sn);
+                if (!empty($req)){
+                    return $req;
+                }
             }
             return ['data'=>'参数错误','code'=>1004];
         }catch (Exception $ee){
-            $this->rollback();
+//            $this->rollback();
             return ['data'=>$ee->getMessage(),'code'=>1005];
         }
     }
@@ -348,15 +383,16 @@ class House extends Model
      * @param int $col
      * @param int $goods_id
      * @return array
-     * 查询该位置下所有商品及状况
+     * 查询BILL_HOUSE_GOODS相关信息
      */
-    public function pleceGoodsSelect($house_id,$goods_id=0,$num=0,$row=0,$col=0){
+    public function pleceGoodsSelect($house_id=0,$goods_id=0,$num=0,$row=0,$col=0){
         if (!empty($num))$wheres[] = ['num','=',$num];
         if (!empty($row))$wheres[] = ['row','=',$row];
         if (!empty($col))$wheres[] = ['col','=',$col];
         if (!empty($goods_id))$wheres[] = ['goods_id','=',$goods_id];
-        $wheres[] = ['house_id','=',$house_id];
-        $pgArr = $this->table(GOODS_HOUSE_PLECE)->where($wheres)->select();
+        if (!empty($house_id)) $wheres[] = ['house_id','=',$house_id];
+        if (empty($wheres))$wheres[] = ['house_id',">",0];
+        $pgArr = $this->table(BILL_HOUSE_GOODS)->where($wheres)->select();
         if (!empty($pgArr)){
             foreach ($pgArr as $key=>$v) {
                 $pgArr[$key]['create_time'] = date('Y-m-d H:i:s', $v['create_time']);
@@ -376,5 +412,17 @@ class House extends Model
         }else{
             return ['code'=>6004,'data'=>'当前位置下没有信息'];
         }
+    }
+
+    /**
+     * @param $wheres
+     * @return bool
+     * @throws Exception
+     * @throws \think\exception\PDOException
+     * BILL_HOUSE_GOODS表按条件删除
+     */
+    public function pleceGoodsDel($wheres){
+        $this->table(BILL_HOUSE_GOODS)->where($wheres)->delete();
+        return true;
     }
 }

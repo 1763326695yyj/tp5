@@ -16,7 +16,7 @@ class PutBill extends Base
 // public function putList($id,$bill_sn,$bill_type,$start_time=0,$end_time=0,$is_del='0,1'){
     public function put_list(){
         $param = $this->request->param();
-       $put_data = $this->putModel->putList($param['id']??'',$param['bill_sn']??'',$param['bill_type']??'',$param['start_time']??'',$param['end_time']??'');
+       $put_data = $this->putModel->putList($param['id']??'',$param['bill_sn']??'',$param['bill_type']??'',$param['state']??'',$param['start_time']??'',$param['end_time']??'',$param['is_del']??'0,1',$param['is_bad']??'0,1');
         if ($put_data['code']==0){
             return ret($put_data['data'],$put_data['code']);
         }else{
@@ -42,6 +42,22 @@ class PutBill extends Base
 
         }else{
           return ret('参数错误',1004);
+        }
+    }
+    public function order_type_save(){
+        $param = $this->request->param();
+        if (array_key_exists('value',$param) && array_key_exists('id',$param) && array_key_exists('key',$param)){
+           $putList =   $this->putModel->putList($param['id']);
+          if (!empty($put_one = $putList['data'][0])){
+              if ($put_one['bill_type'] == 1 || $put_one['bill_type'] == 3){
+                 $req =  $this->putModel->putOneEdit($param['id'],$param['key'],$param['value']);
+                return ret($req['data'],$req['code']);
+              }else{
+                  return ret('参数错误,单据类型有误',1004);
+              }
+          }
+        }else{
+            return ret('参数错误',1004);
         }
     }
 }

@@ -27,6 +27,9 @@ return [
     'ccl' => 'api/company/company_list',
     'pps' => 'api/putBill/put_save',
     'ppl' => 'api/putBill/put_list',
+    'pots' => 'api/putBill/order_type_save',
     'hhs' => 'api/house/house_save',
     'hhl' => 'api/house/house_list',
+    'rrl' => 'api/receipt/receipt_list',
+    'rrs' => 'api/receipt/receipt_save',
 ];

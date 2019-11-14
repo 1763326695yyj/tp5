@@ -2,18 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63a1ee0f-0d81-406c-b96a-a3bcb95ddca7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/api/controller/House.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/api/controller/PutBill.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/api/model/House.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/api/model/PutBill.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/controller/Receipt.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/model/Receipt.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/controller/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Company.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/controller/Goods.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/Goods.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/Attr.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Attr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/AttrText.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/AttrText.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Company.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/Goods.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Goods.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/Log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/Log.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/PutBill.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/PutBill.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/model/House.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/House.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/model/PutBill.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/PutBill.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/common.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/common.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/route/route.php" beforeDir="false" afterPath="$PROJECT_DIR$/route/route.php" afterDir="false" />
     </list>
@@ -73,7 +67,7 @@
     <configuration name="assas" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" document_root="$PROJECT_DIR$/public">
       <method v="2" />
     </configuration>
-    <configuration name="mvcdemo" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" browser="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" server_name="mvcdemo" start_url="/ggl?id=1">
+    <configuration name="mvcdemo" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" browser="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" server_name="mvcdemo" start_url="/pps">
       <method v="2" />
     </configuration>
     <list>
@@ -106,7 +100,9 @@
       <workItem from="1573180939128" duration="11460000" />
       <workItem from="1573259163028" duration="25059000" />
       <workItem from="1573432483589" duration="24262000" />
-      <workItem from="1573518820277" duration="16010000" />
+      <workItem from="1573518820277" duration="26465000" />
+      <workItem from="1573605227615" duration="23761000" />
+      <workItem from="1573691753935" duration="22350000" />
     </task>
     <servers />
   </component>
