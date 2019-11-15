@@ -19,6 +19,7 @@ return [
     'ggl' => 'api/goods/goods_list',
     'ggs' => 'api/goods/goods_save',
     'aaa' => 'api/attr/attr_add',
+    'aaf' => 'api/attr/attr_find',
     'ata' => 'api/attr/text_add',
     'atf' => 'api/attr/text_find',
     'gic' => 'api/goods/int_change',
@@ -32,4 +33,6 @@ return [
     'hhl' => 'api/house/house_list',
     'rrl' => 'api/receipt/receipt_list',
     'rrs' => 'api/receipt/receipt_save',
+    'sendss' => 'api/send/send_sheet_save',
+    'sendsl' => 'api/send/send_sheet_list',
 ];

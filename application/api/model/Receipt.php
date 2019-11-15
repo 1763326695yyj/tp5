@@ -226,7 +226,6 @@ class Receipt extends Model
         $req = $this->table(RECEIPT_COMPANY)->where($wheres)->find();
         return $req;
     }
-
     /**
      * @param $r_id
      * @return array|\PDOStatement|string|Model|null

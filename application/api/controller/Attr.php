@@ -29,6 +29,12 @@ class Attr extends Base
         }
     }
 
+    public function attr_find(){
+        $param = $this->request->param();
+        $attrFindData = $this->attrModel->ListFind($param['id']??'',$param['attr_name']??'');
+        return ret($attrFindData['data'],$attrFindData['code']);
+    }
+
     /**
      * 查询当前属性下所有属性值
      */

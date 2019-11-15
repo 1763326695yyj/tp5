@@ -2,6 +2,7 @@
 define('ATTR_TEXT','wk_attr_text');
 define('ATTR','wk_attr');
 define('ATTR_TEXT_GOODS_LINK','wk_goods_attr_text_link');
+define('ATTR_TEXT_SEND_LINK','wk_send_attr_text_link');
 define('ATTR_LINK','wk_attr_link');
 define('GOODS_UNIT_LINK','wk_goods_unit_link');
 define('GOODS','wk_goods');
@@ -22,8 +23,8 @@ define('HOUSE_GOODS_LINK','wk_house_goods_link');
 define('RECEIPT','wk_receipt');
 define('RECEIPT_INFO','wk_receipt_info');
 define('RECEIPT_COMPANY','wk_receipt_company_link');
-$GLOBALS['admin_id'] = 1;
-$GLOBALS['admin_name'] = '管理员';
+define('SEND_SHEET','wk_send_sheet');
+define('SEND_STAFF_LINK','wk_send_staff_link');
 
 define('TOKEN_TIME',7200);
 define('API_TOKEN_TIME',7200);

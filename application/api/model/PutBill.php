@@ -8,6 +8,7 @@ use think\Exception;
 use think\Model;
 use think\Validate;
 
+//销毁订单 预计返款时间，金额，返款备注 没写
 
 class PutBill extends Model
 {
@@ -157,7 +158,7 @@ class PutBill extends Model
             foreach ($put_arr as $key => $vp) {
                 //数据处理
                 $put_arr[$key]['create_time'] = date('Y-m-d H:i:s', $vp['create_time']);
-                $put_arr[$key]['save_time'] = date('Y-m-d H:i:s', $vp['save_time']);
+                $put_arr[$key]['save_time'] =
                 $put_arr[$key]['state_n'] = $this->state[$vp['state']] ?? '';
                 $put_arr[$key]['bill_type_n'] = $this->bill_type[$vp['bill_type']] ?? '';
                 $put_arr[$key]['house_type_n'] = $this->house_type[$vp['house_type']] ?? '';
@@ -166,6 +167,7 @@ class PutBill extends Model
                 $put_arr[$key]['order_receipt_type_n'] = $this->order_type[$vp['order_receipt_type']] ?? '';
                 $put_arr[$key]['order_goods_type_n'] = $this->order_type[$vp['order_goods_type']] ?? '';
                 $put_arr[$key]['receipt_type_n'] = $this->receipt_type[$vp['receipt_type']] ?? '';
+                if (!empty($vp['refunds_time'])) $put_arr[$key]['refunds_time'] =  date('Y-m-d H:i:s', $vp['refunds_time']);
                 $put_arr[$key]['goods_info'] = $this->putGoodsFind($vp['id']);
                 $put_arr[$key]['company_info'] = $this->putCompanyFind($vp['id']);
 //                if ($vp['pay_type'] == 1) {
@@ -178,8 +180,6 @@ class PutBill extends Model
         }
     }
 
-    //传参格式
-    //{"putData":{"id":1,"bill_type":2,"total":101.00,"pay_type":1,"goods_info":[{"id":2,"name":1},{"id":2,"name":"哈哈","num":3,"house_info":{"house_id":1,"house_name":"测试1仓库"}}],"company_info":{"id":2,"name":"测试公司2"},"attr_info":[{"attr_id":11,"text_id":8},{"attr_id":14,"text_id":62},{"attr_id":"15","text_id":643},{"attr_id":7,"text_id":16}],"image_url":"http://wwww.baidu.co2m"},"type":"update"}
     /**
      * @param $putData
      * @return array
@@ -196,9 +196,10 @@ class PutBill extends Model
                 $data = [
                     'bill_sn' => $this->state_sn[$putData['state']].rand(1,9).time().rand(1000,9999), 'bill_type' => $putData['bill_type'],
                     'total' => $putData['total'], 'house_type' => $putData['house_type']??1, 'pay_type' => $putData['pay_type'], 'receipt_type' => $putData['receipt_type']??2, 'match_sn' => $putData['match_sn']??'',
-                    'state' => $putData['state'], 'create_time' => time(), 'save_time' => time(), 'is_del' => $putData['is_del']??1, 'is_bad' => 1,
+                    'state' => $putData['state'], 'create_time' => time(), 'save_time' => time(), 'is_del' => $putData['is_del']??1, 'is_bad' => $putData['is_bad']??1,
                     'cash_paid' => $putData['cash_paid']??0.00, 'use_refunds' => $putData['use_refunds']??0.00, 'account_balance' => $putData['account_balance']??0.00, 'charge_balance' => $putData['charge_balance']??0.00,
                     'order_type' => $putData['order_type']??'', 'order_receipt_type' => $putData['order_receipt_type']??'', 'order_goods_type' => $putData['order_goods_type']??'',
+                    'refunds' => $putData['refunds']??'','refunds_time' => !empty($putData['refunds_time'])?strtotime($putData['refunds_time']):'','refunds_remark' =>$putData['refunds_remark']??""
                     ];
 //                return ['code'=>1000,'data'=>$data];
                     $this->allowField(true)->save($data);
@@ -269,6 +270,7 @@ class PutBill extends Model
                     'order_type' => $putData['order_type']??'',
                     'order_receipt_type' => $putData['order_receipt_type']??'',
                     'order_goods_type' => $putData['order_goods_type']??'',
+                    'refunds' => $putData['refunds']??$put['refunds'],'refunds_time' => !empty($putData['refunds_time'])?strtotime($putData['refunds_time']):$put['refunds_time'],'refunds_remark' =>$putData['refunds_remark']??$put['refunds_remark'],
                 ];
 
                 $this->allowField(true)->save($data,['id'=>$data['id']]);
@@ -395,7 +397,7 @@ class PutBill extends Model
                 'put_id' => $put_id,
                 'company_id' => $company_info['id'],
                 'status' => $company_info['status']??'',
-                'company_info' => json_encode($this->companyModel->companyList('',$company_info['id']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+                'company_info' => json_encode($this->companyModel->companyList('',$company_info['id'])['data'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             ];
             $whereLinkDel[] = ['put_id','=',$put_id];
             $this->table(PUT_COMPANY_LINK)->where($whereLinkDel)->delete();
@@ -434,19 +436,33 @@ class PutBill extends Model
 
     /**
      * @param $put_id
+     * @param $company_id
      * @return array|\PDOStatement|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      * 单据相关联公司查询
      */
-    public function putCompanyFind($put_id){
-        $whereFind[] = ['put_id','=',$put_id];
+    public function putCompanyFind($put_id,$company_id=''){
+        if (!empty($put_id))$whereFind[] = ['put_id','in',$put_id];
+        if (!empty($company_id))$whereFind[] = ['company_id','in',$company_id];
+
+        $whereFind[] = ['put_id','>',0];
         $company_info = $this->table(PUT_COMPANY_LINK)->where($whereFind)->select();
+
         foreach ($company_info as $key=>$v){
             $company_info[$key]['company_info']   =  json_decode( stripslashes($v['company_info']),true);
 
         }
         return $company_info;
+    }
+
+    /**
+     * @param $where
+     * @param $field
+     * 条件查询一条
+     */
+    public function putFindOne($where,$field){
+        return $this->where($where)->column($field);
     }
 }

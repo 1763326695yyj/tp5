@@ -177,5 +177,11 @@ class Attr extends Model
         return $AttrArr;
     }
 
-
+    public function ListFind($id='',$attr_name=''){
+        $wheres[] = ['id',">",0];
+        if(!empty($id))$wheres[] = ['id','in',$id];
+        if(!empty($attr_name))$wheres[] = ['attr_name','like',"%".$attr_name."%"];
+        $req = $this->where($wheres)->select();
+        return ['code'=> 0,'data' => $req];
+    }
 }
